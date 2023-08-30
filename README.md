@@ -12,4 +12,4 @@ and dumps them into a .txt file inside of ./text_dumps
  - execute the script from the top level of the repo
      -  cargo run
 
- Files will be put into the ./text_dumps 
+ Files will be put into the ./text_dumps folder inside this project
