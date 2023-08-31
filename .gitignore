@@ -1,3 +1,5 @@
 /target
 db
 text_dumps
+sled-db*
+v*
