@@ -1,13 +1,9 @@
 use sled;
 use std::io::Write;
 use std::{fs, str};
-use String;
 
 mod pictrs_types;
-
-use crate::{
-    pictrs_types::{Alias, DeleteToken}
-};
+use crate::pictrs_types::{Alias, DeleteToken};
 
 fn main() {
     let db = sled::open("./v0.4.0-alpha.1").unwrap();
@@ -43,6 +39,7 @@ fn main() {
                             _ = writeln!(&mut file, "{} | {}", key, val);
                         }
                         Err(_e) => {
+                            println!("Error encountered during item unrwapping, continuing...");
                             continue;
                         }
                     }

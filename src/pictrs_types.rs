@@ -23,13 +23,6 @@ impl MaybeUuid {
             MaybeUuid::Name(s.into())
         }
     }
-
-    fn as_bytes(&self) -> &[u8] {
-        match self {
-            Self::Uuid(uuid) => &uuid.as_bytes()[..],
-            Self::Name(name) => name.as_bytes(),
-        }
-    }
 }
 
 fn split_at_dot(s: &str) -> Option<(&str, &str)> {
@@ -39,13 +32,6 @@ fn split_at_dot(s: &str) -> Option<(&str, &str)> {
 }
 
 impl Alias {
-    pub(crate) fn generate(extension: String) -> Self {
-        Alias {
-            id: MaybeUuid::Uuid(Uuid::new_v4()),
-            extension: Some(extension),
-        }
-    }
-
     pub(crate) fn from_existing(alias: &str) -> Self {
         if let Some((start, end)) = split_at_dot(alias) {
             Alias {
@@ -62,16 +48,6 @@ impl Alias {
 
     pub(crate) fn extension(&self) -> Option<&str> {
         self.extension.as_deref()
-    }
-
-    pub(crate) fn to_bytes(&self) -> Vec<u8> {
-        let mut v = self.id.as_bytes().to_vec();
-
-        if let Some(ext) = self.extension() {
-            v.extend_from_slice(ext.as_bytes());
-        }
-
-        v
     }
 
     pub(crate) fn from_slice(bytes: &[u8]) -> Option<Self> {
@@ -107,16 +83,6 @@ impl DeleteToken {
                 id: MaybeUuid::Name(existing.into()),
             }
         }
-    }
-
-    pub(crate) fn generate() -> Self {
-        Self {
-            id: MaybeUuid::Uuid(Uuid::new_v4()),
-        }
-    }
-
-    fn to_bytes(&self) -> Vec<u8> {
-        self.id.as_bytes().to_vec()
     }
 
     pub(crate) fn from_slice(bytes: &[u8]) -> Option<Self> {
