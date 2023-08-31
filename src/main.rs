@@ -3,7 +3,7 @@ use std::io::Write;
 use std::{fs, str};
 
 fn main() {
-    let db = sled::open("./db").unwrap();
+    let db = sled::open("./v0.4.0-alpha.1").unwrap();
     let names = db.tree_names();
 
     _ = fs::create_dir("./text_dumps");
@@ -36,7 +36,7 @@ fn main() {
                                 Ok(key) => {
                                     str1 = key.to_string();
                                 }
-                                Err(e) => {
+                                Err(_e) => {
                                     str1 = "".to_string();
                                 }
                             }
@@ -45,16 +45,16 @@ fn main() {
                                 Ok(val) => {
                                     str2 = val.to_string();
                                 }
-                                Err(e) => {
+                                Err(_e) => {
                                     str2 = "".to_string();
                                 }
                             }
-                            writeln!(&mut file, "{} | {}", str1, str2);
+                            _ = writeln!(&mut file, "{} | {}", str1, str2);
                         }
-                        Err(e) => {
+                        Err(_e) => {
                             continue;
                         }
-                    },
+                    }
                 }
             }
         }
